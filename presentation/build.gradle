@@ -1,0 +1,112 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion Integer.parseInt(project.ANDROID_COMPILE_SDK_VERSION)
+
+    defaultConfig {
+        applicationId project.APPLICATION_ID
+        minSdkVersion Integer.parseInt(project.ANDROID_MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.ANDROID_TARGET_SDK_VERSION)
+        multiDexEnabled true
+        flavorDimensions("news")
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    buildTypes {
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+
+        develop {
+            versionNameSuffix '(develop)'
+            dimension "news"
+            versionCode 1
+            versionName '0.0.1'
+            matchingFallbacks = ['debug', 'release']
+        }
+
+        production {
+            versionNameSuffix '(release)'
+            dimension "news"
+            versionCode 1
+            versionName '0.0.1'
+            matchingFallbacks = ['debug', 'release']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        develop { java.srcDirs = ['src/develop/java', 'src/develop/java/'] }
+        production { java.srcDirs = ['src/production/java', 'src/production/java/'] }
+
+    }
+
+    sourceSets.test.resources.srcDirs += ["src/main"]
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //support
+    implementation supportDependencies.appcompat
+    implementation supportDependencies.design
+    implementation supportDependencies.support
+    implementation supportDependencies.constraint_layout
+    implementation supportDependencies.recyclerview
+    implementation supportDependencies.mediarouter
+    implementation supportDependencies.cardview
+
+    implementation lifecycleDependencies.lifecycle
+    annotationProcessor lifecycleDependencies.lifecycleProcessor
+    implementation lifecycleDependencies.liveReactiveStream
+
+    //Dagger
+    implementation daggerDependencies.dagger
+    annotationProcessor daggerDependencies.daggerProcessor
+    annotationProcessor daggerDependencies.daggerAndroidProcessor
+    provided daggerDependencies.javaxProvided
+    implementation daggerDependencies.daggerSupport
+
+    //rx-java
+    implementation rxjavaDependencies.rxjava
+    implementation rxjavaDependencies.rxandroid
+
+    //butterknife
+    implementation butterKnifeDependencies.butterknife
+    annotationProcessor butterKnifeDependencies.butterknifeAnnotationProcessor
+
+    //Multi Dex
+    compile('com.android.support:multidex:1.0.1') {
+        exclude group: 'com.android.support', module: 'support'
+    }
+
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    //Test
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+
+}

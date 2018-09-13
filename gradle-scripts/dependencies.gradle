@@ -1,0 +1,120 @@
+ext {
+
+    supportLibVersion = '27.0.1'
+    playServicesVersion = '11.6.2'
+    recyclerVersion = '27.0.1'
+    constraintLayoutVersion = '1.1.2'
+    butterknifeVersion = '8.7.0'
+    twitterVersion = '3.0.0'
+    facebookVersion = '[4,5)'
+    retrofitVersion = '2.2.0'
+    okHttpVersion = '3.6.0'
+    daggerVersion = '2.13'
+    javaxVersion = '1.0'
+    rxjavaVersion = '2.0.8'
+    rxandroidVesion = '2.0.1'
+    glideVersion = '4.3.1'
+    lifecycleVersion = '1.0.0'
+    gsonVersion = '2.6.1'
+
+    //Packages
+    supportPackage = 'com.android.support'
+    constraintLayoutPackage = 'com.android.support.constraint'
+    butterKnifePackage = 'com.jakewharton'
+    firebasepackage = 'com.google.firebase'
+    gcmPackage = 'com.google.android.gms'
+    facebookPackage = 'com.facebook.android'
+    twitterPackage = 'com.twitter.sdk.android'
+    daggerPackage = 'com.google.dagger'
+    javaxPackage = 'javax.annotation'
+    rxjavaPackage = 'io.reactivex.rxjava2'
+    okhttpPackage = 'com.squareup.okhttp3'
+    retrofitPackage = 'com.squareup.retrofit2'
+    glidePackage = 'com.github.bumptech.glide'
+    roomPackage = 'android.arch.persistence.room'
+    lifecyclePackage = 'android.arch.lifecycle'
+
+    supportDependencies = [
+            appcompat        : buildDependency(supportPackage, 'appcompat-v7', supportLibVersion),
+            design           : buildDependency(supportPackage, 'design', supportLibVersion),
+            support          : buildDependency(supportPackage, 'support-v4', supportLibVersion),
+            recyclerview     : buildDependency(supportPackage, 'recyclerview-v7', supportLibVersion),
+            cardview     : buildDependency(supportPackage, 'cardview-v7', supportLibVersion),
+            constraint_layout: buildDependency(constraintLayoutPackage, 'constraint-layout', constraintLayoutVersion),
+            mediarouter      : buildDependency(supportPackage, 'mediarouter-v7', supportLibVersion)
+
+    ]
+
+    gcmDependencies = [
+            cast     : buildDependency(gcmPackage, 'play-services-cast-framework', playServicesVersion),
+            auth     : buildDependency(gcmPackage, 'play-services-auth', playServicesVersion),
+            maps     : buildDependency(gcmPackage, 'play-services-maps', playServicesVersion),
+            base     : buildDependency(gcmPackage, 'play-services-base', playServicesVersion),
+            location : buildDependency(gcmPackage, 'play-services-location', playServicesVersion),
+            gcm      : buildDependency(gcmPackage, 'play-services-gcm', playServicesVersion),
+            basement : buildDependency(gcmPackage, 'play-services-basement', playServicesVersion),
+            safetynet: buildDependency(gcmPackage, 'play-services-safetynet', playServicesVersion),
+            tasks    : buildDependency(gcmPackage, 'play-services-tasks', playServicesVersion)
+    ]
+
+    butterKnifeDependencies = [
+            butterknife                   : buildDependency(butterKnifePackage, 'butterknife', butterknifeVersion),
+            butterknifeAnnotationProcessor: buildDependency(butterKnifePackage, 'butterknife-compiler', butterknifeVersion)
+    ]
+
+    firebaseDependencies = [
+            auth   : buildDependency(firebasepackage, 'firebase-auth', playServicesVersion),
+            message: buildDependency(firebasepackage, 'firebase-messaging', playServicesVersion),
+            core   : buildDependency(firebasepackage, 'firebase-core', playServicesVersion)
+
+    ]
+
+    daggerDependencies = [
+            dagger                : buildDependency(daggerPackage, 'dagger', daggerVersion),
+            daggerProcessor       : buildDependency(daggerPackage, 'dagger-compiler', daggerVersion),
+            daggerAndroidProcessor: buildDependency(daggerPackage, 'dagger-android-processor', daggerVersion),
+            daggerSupport         : buildDependency(daggerPackage, 'dagger-android-support', daggerVersion),
+            javaxProvided         : buildDependency(javaxPackage, 'jsr250-api', javaxVersion)
+    ]
+
+    rxjavaDependencies = [
+            rxjava   : buildDependency(rxjavaPackage, 'rxjava', rxjavaVersion),
+            rxandroid: buildDependency(rxjavaPackage, 'rxandroid', rxandroidVesion),
+
+    ]
+
+    okhttp3Dependencies = [
+            okhttp             : buildDependency(okhttpPackage, 'okhttp', okHttpVersion),
+            logging_interceptor: buildDependency(okhttpPackage, 'logging-interceptor', okHttpVersion)
+
+    ]
+
+    retrofitDependencies = [
+            retrofit       : buildDependency(retrofitPackage, 'retrofit', retrofitVersion),
+            converter_gson : buildDependency(retrofitPackage, 'converter-gson', retrofitVersion),
+            converter_xml  : buildDependency(retrofitPackage, 'converter-simplexml', retrofitVersion),
+            adapter_rxjava2: buildDependency(retrofitPackage, 'adapter-rxjava2', retrofitVersion)
+    ]
+
+    glideDependencies = [
+            glide         : buildDependency(glidePackage, 'glide', glideVersion),
+            glideProcessor: buildDependency(glidePackage, 'compiler', glideVersion)
+    ]
+
+    RoomDependencies = [
+            room         : buildDependency(roomPackage, 'runtime', lifecycleVersion),
+            roomProcessor: buildDependency(roomPackage, 'compiler', lifecycleVersion),
+            roomRxJava2   : buildDependency(roomPackage, 'rxjava2', lifecycleVersion)
+    ]
+
+    lifecycleDependencies = [
+            lifecycle         : buildDependency(lifecyclePackage, 'extensions', lifecycleVersion),
+            lifecycleProcessor: buildDependency(lifecyclePackage, 'compiler', lifecycleVersion),
+            liveReactiveStream  : buildDependency(lifecyclePackage, 'reactivestreams', lifecycleVersion)
+    ]
+
+}
+
+static String buildDependency(String pack, String dependency, String version) {
+    return "${pack}:${dependency}:${version}"
+}
