@@ -17,10 +17,25 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //rx-java
+    implementation rxjavaDependencies.rxjava
+
+    //Dagger
+    implementation daggerDependencies.dagger
+    annotationProcessor daggerDependencies.daggerProcessor
+    annotationProcessor daggerDependencies.daggerAndroidProcessor
+    provided daggerDependencies.javaxProvided
+    implementation daggerDependencies.daggerSupport
 
     testImplementation 'junit:junit:4.12'
 }
