@@ -99,6 +99,19 @@ dependencies {
     implementation butterKnifeDependencies.butterknife
     annotationProcessor butterKnifeDependencies.butterknifeAnnotationProcessor
 
+    //retrofit
+    implementation retrofitDependencies.retrofit
+    implementation retrofitDependencies.converter_gson
+    implementation retrofitDependencies.adapter_rxjava2
+
+    //okHttp
+    implementation okhttp3Dependencies.okhttp
+    implementation okhttp3Dependencies.logging_interceptor
+
+    //Glide
+    implementation glideDependencies.glide
+    annotationProcessor glideDependencies.glideProcessor
+
     //Multi Dex
     compile('com.android.support:multidex:1.0.1') {
         exclude group: 'com.android.support', module: 'support'

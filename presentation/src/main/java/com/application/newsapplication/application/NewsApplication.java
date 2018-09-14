@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
+import com.application.newsapplication.injection.component.DaggerApplicationComponent;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;

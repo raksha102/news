@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">NewsApplication</string>
+    <string name="msg_welcome">Today\'s News</string>
+    <string name="title_home">Today\'s News</string>
+    <string name="menu_exit">Exit</string>
+    <string name="dlg_msg_app_exit">Are you sure you want to exit?</string>
+    <string name="dlg_negetive_btn">No</string>
+    <string name="dlg_positive_btn">Yes</string>
+
+    <string-array name="news_sources">
+        <item>www.nytimes.com</item>
+        <item>www.cnn.com</item>
+        <item>www.bbc.com</item>
+    </string-array>
+
 </resources>

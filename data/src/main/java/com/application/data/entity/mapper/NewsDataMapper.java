@@ -20,7 +20,7 @@ public class NewsDataMapper {
         List<News> newsList = new ArrayList<>();
             if(response != null && response.getArticles() != null){
                 for(NewsResponse.Article article : response.getArticles()){
-                   newsList.add(new News(article.getTitle(), article.getDescription(), article.getUrlToImage()));
+                   newsList.add(new News(article.getTitle(), article.getDescription(), article.getUrlToImage(), article.getContent()));
                 }
             }
         return newsList;
