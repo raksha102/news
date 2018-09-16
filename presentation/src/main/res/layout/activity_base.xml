@@ -25,7 +25,7 @@
                 android:background="@color/colorPrimaryDark"
                 android:theme="@style/Toolbar_MenuItem_WithText">
 
-                <com.application.testapplication.ui.widget.CustomToolBar
+                <com.application.newsapplication.ui.widget.CustomToolBar
                     android:id="@+id/base_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
