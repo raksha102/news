@@ -28,12 +28,7 @@ public class SplashScreenFragment extends BaseFragment {
 
     @Override
     protected void initViews(View view) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getNavigator().launchNewsScreen();
-            }
-        }, SPLASH_TIMEOUT);
+        new Handler().postDelayed(() -> getNavigator().launchNewsScreen(), SPLASH_TIMEOUT);
     }
 
     @Override
