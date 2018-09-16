@@ -5,6 +5,8 @@ import com.application.domain.executor.PostExecutionThread;
 import com.application.domain.executor.ThreadExecutor;
 
 import io.reactivex.FlowableTransformer;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.SingleTransformer;
 import io.reactivex.observers.DisposableObserver;
 
 /**
@@ -38,10 +40,10 @@ public abstract class UseCase<T, Params> {
      */
     public abstract T execute(Params params);
 
-   /* protected <Upstream> FlowableTransformer<Upstream, Upstream> getApiExecutor() {
+    protected <Upstream> SingleTransformer<Upstream, Upstream> getApiExecutor() {
         return upstream -> upstream
                 .subscribeOn(threadExecutor.getScheduler())
                 .observeOn(postExecutionThread.getScheduler());
-    }*/
+    }
 
 }

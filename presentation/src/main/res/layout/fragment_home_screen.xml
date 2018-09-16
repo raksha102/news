@@ -8,8 +8,7 @@
         android:id="@+id/spinner_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/news_sources"
-        android:selectedItemPosition="0"/>
+        android:entries="@array/news_sources"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_news"

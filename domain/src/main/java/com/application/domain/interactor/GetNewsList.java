@@ -27,8 +27,8 @@ public class GetNewsList extends UseCase<Single<List<News>>, GetNewsList.Params>
     public Single<List<News>> execute(Params params) {
         return mNewsRepository.getNews(params.source, 0, 10)
                 .firstElement()
-                .toSingle();
-               // .observeOn(postExecutionThread);
+                .toSingle()
+                .compose(getApiExecutor());
     }
 
     public static class Params {

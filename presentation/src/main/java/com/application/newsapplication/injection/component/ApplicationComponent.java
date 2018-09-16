@@ -14,8 +14,7 @@ import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 
 @Singleton
-@Component(modules = {AndroidInjectionModule.class, ActivityBuilderModule.class, ApplicationModule.class,
-        DataModule.class})
+@Component(modules = {AndroidInjectionModule.class, ActivityBuilderModule.class, ApplicationModule.class, DataModule.class})
 public interface ApplicationComponent {
 
     void inject(NewsApplication app);
