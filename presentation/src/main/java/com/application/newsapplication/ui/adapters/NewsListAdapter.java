@@ -27,7 +27,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
     @Override
     public NewsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), NewsItemViewHolder.getLayoutId(), parent, false);
-        return new NewsItemViewHolder((ItemNewsBinding)binding);
+        return new NewsItemViewHolder((ItemNewsBinding) binding);
     }
 
     @Override
@@ -61,5 +61,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
 
     public boolean hasData() {
         return mData != null && mData.size() > 0;
+    }
+
+    public void resetData() {
+        if (mData != null)
+            mData.clear();
+        notifyDataSetChanged();
     }
 }

@@ -16,8 +16,6 @@ import com.application.newsapplication.ui.base.BaseFragment;
 
 public class NewsDetailFragment extends BaseFragment {
 
-    private News mNews;
-
     public static NewsDetailFragment newInstance(News news) {
 
         Bundle args = new Bundle();
@@ -35,7 +33,7 @@ public class NewsDetailFragment extends BaseFragment {
     @Override
     protected View inflateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentNewsDetailBinding binding = DataBindingUtil.inflate(inflater, getFragmentLayoutId(), container, false);
-        binding.setData(mNews);
+        binding.setData(getArguments().getParcelable(BundleConstants.DATA));
         return binding.getRoot();
     }
 
@@ -45,15 +43,9 @@ public class NewsDetailFragment extends BaseFragment {
     }
 
     @Override
-    protected void readFromBundle() {
-        super.readFromBundle();
-        mNews = getArguments().getParcelable(BundleConstants.DATA);
-    }
-
-    @Override
     public AppToolbar getToolBarSetting() {
         return new AppToolbar.AppToolBarBuilder(true)
                 .setBackButtonEnabled(true)
-                .setTitle(mNews.getTitle()).build();
+                .build();
     }
 }

@@ -21,33 +21,46 @@ public class NewsViewModel extends ViewModel {
     private final GetNewsList mGetNewsList;
     private Map<String, MutableLiveData<List<News>>> mDataMap = new HashMap<>();
     private MutableLiveData<List<News>> mLiveData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mLoaderData = new MutableLiveData<>();
 
     @Inject
     public NewsViewModel(GetNewsList getNewsList) {
         mGetNewsList = getNewsList;
     }
 
-    public void getData(String source){
-        if(mDataMap.containsKey(source) && mDataMap.get(source).getValue().size() > 0){
+    public void getData(String source, boolean isLoadMore) {
+        mLoaderData.setValue(!isLoadMore);
+        if (!isLoadMore && mDataMap.containsKey(source) && mDataMap.get(source).getValue().size() > 0) {
             mLiveData.setValue(mDataMap.get(source).getValue());
+            mLoaderData.setValue(false);
         } else {
-            mGetNewsList.execute(new GetNewsList.Params(source))
+            mGetNewsList.execute(new GetNewsList.Params(source, getPage()))
                     .subscribeWith(new DisposableSingleObserver<List<News>>() {
                         @Override
                         public void onSuccess(List<News> news) {
+                            mLoaderData.setValue(false);
                             mLiveData.setValue(news);
                             mDataMap.put(source, mLiveData);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.e(TAG, "onError : "+e.getMessage());
+                            Log.e(TAG, "onError : " + e.getMessage());
+                            mLoaderData.setValue(false);
                         }
                     });
         }
     }
 
+    private int getPage() {
+        return mLiveData.getValue() != null && mLiveData.getValue().size() > 0 ? mLiveData.getValue().size() / 10 : 0;
+    }
+
     public MutableLiveData<List<News>> getLiveData() {
         return mLiveData;
+    }
+
+    public MutableLiveData<Boolean> getLoaderData() {
+        return mLoaderData;
     }
 }

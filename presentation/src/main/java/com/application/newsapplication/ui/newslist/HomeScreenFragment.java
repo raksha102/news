@@ -4,12 +4,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 
+import com.application.domain.Constants;
 import com.application.domain.News;
 import com.application.newsapplication.R;
 import com.application.newsapplication.application.events.NavigationEvent;
@@ -23,13 +25,18 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+
 public class HomeScreenFragment extends BaseFragment {
+
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
 
     @Inject
     NewsViewModel mViewModel;
 
     private NewsListAdapter mAdapter;
-    private ArrayAdapter<String> mSpinnerAdapter;
+    private String mLastSelectedSource;
 
     public static HomeScreenFragment newInstance() {
 
@@ -58,8 +65,9 @@ public class HomeScreenFragment extends BaseFragment {
         binding.spinnerNews.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String source = (String) parent.getItemAtPosition(position);
-                mViewModel.getData(source);
+                mLastSelectedSource = (String) parent.getItemAtPosition(position);
+                mAdapter.resetData();
+                mViewModel.getData(mLastSelectedSource, false);
             }
 
             @Override
@@ -72,9 +80,35 @@ public class HomeScreenFragment extends BaseFragment {
     }
 
     private void seUpRecyclerView(FragmentHomeScreenBinding binding) {
-        binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        binding.rvNews.setLayoutManager(manager);
         mAdapter = new NewsListAdapter(getRxBus());
         binding.rvNews.setAdapter(mAdapter);
+        addScrollListener(binding, manager);
+    }
+
+    private void addScrollListener(FragmentHomeScreenBinding binding, LinearLayoutManager manager) {
+        binding.rvNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItemPos;
+            int visibleItemPos;
+            int threshHold = Constants.PAGE_SIZE - 2;
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                onListScroll(dx);
+            }
+
+            private void onListScroll(int dx) {
+                visibleItemPos = manager.findLastVisibleItemPosition();
+                if (dx > 0 && visibleItemPos != lastVisibleItemPos && mAdapter != null
+                        && mAdapter.getItemCount() >= Constants.PAGE_SIZE
+                        && visibleItemPos % Constants.PAGE_SIZE == threshHold) {
+                    mViewModel.getData(mLastSelectedSource, true);
+                    lastVisibleItemPos = visibleItemPos;
+                }
+            }
+        });
     }
 
     @Override
@@ -84,10 +118,15 @@ public class HomeScreenFragment extends BaseFragment {
 
     private void observeData() {
         mViewModel.getLiveData().observe(this, news -> updateData(news));
+        mViewModel.getLoaderData().observe(this, showLoader -> showLoader(showLoader));
+    }
+
+    private void showLoader(Boolean showLoader) {
+        mProgressBar.setVisibility(showLoader ? View.VISIBLE : View.GONE);
     }
 
     private void updateData(List<News> news) {
-        if(mAdapter.hasData()){
+        if (mAdapter.hasData()) {
             mAdapter.addData(news);
         } else {
             mAdapter.setData(news);
@@ -96,9 +135,9 @@ public class HomeScreenFragment extends BaseFragment {
 
     @Override
     protected void handleNavigationEvents(NavigationEvent event) {
-        switch (event.getFlag()){
-            case NavigationEvent.EVENT_ON_NEWS_ITEM_CLICK :
-                getNavigator().launchNewsDetailScreen((News)event.getData());
+        switch (event.getFlag()) {
+            case NavigationEvent.EVENT_ON_NEWS_ITEM_CLICK:
+                getNavigator().launchNewsDetailScreen((News) event.getData());
                 break;
         }
     }

@@ -25,17 +25,19 @@ public class GetNewsList extends UseCase<Single<List<News>>, GetNewsList.Params>
 
     @Override
     public Single<List<News>> execute(Params params) {
-        return mNewsRepository.getNews(params.source, 0, 10)
+        return mNewsRepository.getNews(params.source, params.page, 10)
                 .firstElement()
                 .toSingle()
                 .compose(getApiExecutor());
     }
 
     public static class Params {
+        private final int page;
         private String source;
 
-        public Params(String source) {
+        public Params(String source, int page) {
             this.source = source;
+            this.page = page;
         }
     }
 }
