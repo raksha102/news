@@ -8,6 +8,9 @@
 - Butterknife
 - Glide
 
+# Architecture Pattern
+- MVVM - Clean architecture pattern (seperating data, domain and presentation layer)
+
 
 # Testing
 - Mockito
