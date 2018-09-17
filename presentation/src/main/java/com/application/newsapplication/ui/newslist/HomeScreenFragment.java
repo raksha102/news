@@ -40,6 +40,7 @@ public class HomeScreenFragment extends BaseFragment {
 
     private NewsListAdapter mAdapter;
     private String mLastSelectedSource;
+    private boolean bLoadMore;
 
     public static HomeScreenFragment newInstance() {
 
@@ -63,6 +64,46 @@ public class HomeScreenFragment extends BaseFragment {
         return binding.getRoot();
     }
 
+    @Override
+    protected void initViews(View view) {
+        observeLiveData();
+    }
+
+    private void observeLiveData() {
+        mViewModel.getLiveData().observe(this, news -> updateData(news));
+        mViewModel.getLoaderData().observe(this, showLoader -> showLoader(showLoader));
+    }
+
+    private void showLoader(Boolean showLoader) {
+        mLoadMoreProgress.setVisibility(showLoader && bLoadMore ? View.VISIBLE : View.GONE);
+        mProgressBar.setVisibility(showLoader && !bLoadMore? View.VISIBLE : View.GONE);
+    }
+
+    private void updateData(List<News> news) {
+        if (mAdapter.hasData()) {
+            mAdapter.addData(news);
+        } else {
+            mAdapter.setData(news);
+        }
+    }
+
+    @Override
+    protected void handleNavigationEvents(NavigationEvent event) {
+        switch (event.getFlag()) {
+            case NavigationEvent.EVENT_ON_NEWS_ITEM_CLICK:
+                getNavigator().launchNewsDetailScreen((News) event.getData());
+                break;
+        }
+    }
+
+    @Override
+    public AppToolbar getToolBarSetting() {
+        return new AppToolbar.AppToolBarBuilder(true)
+                .setTitle(getString(R.string.title_home))
+                .setExitEnabled(true)
+                .build();
+    }
+
     private void setUpSpinner(FragmentHomeScreenBinding binding) {
 
         binding.spinnerNews.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -70,6 +111,7 @@ public class HomeScreenFragment extends BaseFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mLastSelectedSource = (String) parent.getItemAtPosition(position);
                 mAdapter.resetData();
+                bLoadMore = false;
                 mViewModel.getData(mLastSelectedSource, false);
             }
 
@@ -107,51 +149,11 @@ public class HomeScreenFragment extends BaseFragment {
                 if (dy > 0 && visibleItemPos != lastVisibleItemPos && mAdapter != null
                         && mAdapter.getItemCount() >= Constants.PAGE_SIZE
                         && visibleItemPos % Constants.PAGE_SIZE == threshHold) {
-                    mLoadMoreProgress.setVisibility(View.VISIBLE);
+                    bLoadMore = true;
                     mViewModel.getData(mLastSelectedSource, true);
                     lastVisibleItemPos = visibleItemPos;
                 }
             }
         });
-    }
-
-    @Override
-    protected void initViews(View view) {
-        observeData();
-    }
-
-    private void observeData() {
-        mViewModel.getLiveData().observe(this, news -> updateData(news));
-        mViewModel.getLoaderData().observe(this, showLoader -> showLoader(showLoader));
-    }
-
-    private void showLoader(Boolean showLoader) {
-        mLoadMoreProgress.setVisibility(View.GONE);
-        mProgressBar.setVisibility(showLoader ? View.VISIBLE : View.GONE);
-    }
-
-    private void updateData(List<News> news) {
-        if (mAdapter.hasData()) {
-            mAdapter.addData(news);
-        } else {
-            mAdapter.setData(news);
-        }
-    }
-
-    @Override
-    protected void handleNavigationEvents(NavigationEvent event) {
-        switch (event.getFlag()) {
-            case NavigationEvent.EVENT_ON_NEWS_ITEM_CLICK:
-                getNavigator().launchNewsDetailScreen((News) event.getData());
-                break;
-        }
-    }
-
-    @Override
-    public AppToolbar getToolBarSetting() {
-        return new AppToolbar.AppToolBarBuilder(true)
-                .setTitle(getString(R.string.title_home))
-                .setExitEnabled(true)
-                .build();
     }
 }

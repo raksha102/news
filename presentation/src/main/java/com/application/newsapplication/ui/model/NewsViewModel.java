@@ -29,7 +29,7 @@ public class NewsViewModel extends ViewModel {
     }
 
     public void getData(String source, boolean isLoadMore) {
-        mLoaderData.setValue(!isLoadMore);
+        mLoaderData.setValue(true);
         if (!isLoadMore && mDataMap.containsKey(source) && mDataMap.get(source).getValue().size() > 0) {
             mLiveData.setValue(mDataMap.get(source).getValue());
             mLoaderData.setValue(false);
