@@ -1,54 +1,38 @@
 package com.application.newsapplication.ui.viewholder;
 
+import android.content.Context;
+import android.databinding.ViewDataBinding;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
-import com.application.domain.News;
 import com.application.newsapplication.R;
-import com.bumptech.glide.Glide;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.application.newsapplication.databinding.ItemNewsBinding;
+import com.application.newsapplication.ui.util.DeviceUtil;
 
 public class NewsItemViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.txt_title)
-    TextView mTxtTitle;
+    private final ItemNewsBinding binding;
 
-    @BindView(R.id.txt_description)
-    TextView mTxtDescription;
-
-    @BindView(R.id.img_news)
-    ImageView mImage;
-
-    public NewsItemViewHolder(View itemView) {
-        super(itemView);
-        ButterKnife.bind(itemView);
+    public NewsItemViewHolder(ItemNewsBinding itemView) {
+        super(itemView.getRoot());
+        this.binding = itemView;
+        //setImageWidthToHeight(itemView.getRoot().getContext());
     }
 
-    public void bindData(News news) {
-        mTxtTitle.setText(news.getTitle());
-        mTxtDescription.setText(news.getDescription());
-        setImage(mImage, news.getImageUrl());
-        setVisibility(mTxtTitle, news.getTitle());
-        setVisibility(mTxtDescription, news.getTitle());
-        setVisibility(mImage, news.getTitle());
-    }
-
-    private void setImage(ImageView imageView, String imageUrl) {
-        Glide.with(imageView.getContext())
-                .load(imageUrl)
-                .into(imageView);
-    }
-
-    private void setVisibility(View view, String data) {
-        view.setVisibility(TextUtils.isEmpty(data) ? View.GONE : View.VISIBLE);
+    private void setImageWidthToHeight(Context context) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)binding.imgNews.getLayoutParams();
+        Point size = DeviceUtil.getImageSize(context);
+        params.width = size.x;
+        params.height = size.y;
     }
 
     public static int getLayoutId() {
         return R.layout.item_news;
+    }
+
+    public ViewDataBinding getBinder() {
+        return binding;
     }
 }

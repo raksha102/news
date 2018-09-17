@@ -1,12 +1,14 @@
 package com.application.newsapplication.ui.adapters;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.application.domain.News;
 import com.application.newsapplication.application.events.NavigationEvent;
+import com.application.newsapplication.databinding.ItemNewsBinding;
 import com.application.newsapplication.ui.base.rxbus.RxBus;
 import com.application.newsapplication.ui.util.RxEventUtils;
 import com.application.newsapplication.ui.viewholder.NewsItemViewHolder;
@@ -24,13 +26,16 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
 
     @Override
     public NewsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(NewsItemViewHolder.getLayoutId(), null);
-        return new NewsItemViewHolder(view);
+        ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), NewsItemViewHolder.getLayoutId(), parent, false);
+        return new NewsItemViewHolder((ItemNewsBinding)binding);
     }
 
     @Override
     public void onBindViewHolder(NewsItemViewHolder holder, int position) {
-        holder.bindData(mData.get(position));
+        ItemNewsBinding binder = (ItemNewsBinding) holder.getBinder();
+        binder.setPosition(position);
+        binder.setData(mData.get(position));
+        binder.executePendingBindings();
         holder.itemView.setOnClickListener(view ->
                 RxEventUtils.sendEventWithData(mRxBus, NavigationEvent.EVENT_ON_NEWS_ITEM_CLICK, mData.get(position)));
     }

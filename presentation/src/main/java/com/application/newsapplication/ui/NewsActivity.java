@@ -5,6 +5,7 @@ import android.view.MenuItem;
 
 import com.application.newsapplication.R;
 import com.application.newsapplication.ui.base.BaseActivity;
+import com.application.newsapplication.ui.newslist.HomeScreenFragment;
 
 public class NewsActivity extends BaseActivity {
 
@@ -37,5 +38,14 @@ public class NewsActivity extends BaseActivity {
         dialog.setMessage(getString(R.string.dlg_msg_app_exit))
                 .setNegativeButton(getString(R.string.dlg_negative_btn), (dialogInterface, i) -> dialogInterface.cancel())
                 .setPositiveButton(getString(R.string.dlg_positive_btn), (dialogInterface, i) -> finish()).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getTopFragment() instanceof HomeScreenFragment) {
+            handleExitButtonClick();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

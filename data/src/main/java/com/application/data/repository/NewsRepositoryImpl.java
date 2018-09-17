@@ -35,11 +35,11 @@ public class NewsRepositoryImpl implements NewsRepository {
     private String getSource(String source) {
         switch (source) {
             case Constants.SOURCE_CNN:
-                return "ccn";
+                return "cnn";
             case Constants.SOURCE_BBC_NEWS:
                 return "bbc-news";
             case Constants.SOURCE_NEW_YORK_TIMES:
-                return "the-nytimes";
+                return "the-new-york-times";
             default:
                 return "";
         }

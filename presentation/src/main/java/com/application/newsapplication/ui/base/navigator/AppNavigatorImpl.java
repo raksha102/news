@@ -17,7 +17,7 @@ import com.application.newsapplication.injection.scope.ActivityScope;
 import com.application.newsapplication.injection.scope.ContainerId;
 import com.application.newsapplication.ui.base.BaseActivity;
 import com.application.newsapplication.ui.newsdetail.NewsDetailFragment;
-import com.application.newsapplication.ui.newslist.NewsListFragment;
+import com.application.newsapplication.ui.newslist.HomeScreenFragment;
 import com.application.newsapplication.ui.onboard.SplashScreenFragment;
 
 import javax.inject.Inject;
@@ -36,7 +36,7 @@ public class AppNavigatorImpl implements AppNavigator {
 
     @Override
     public void launchNewsScreen() {
-        replaceFragment(mContainerId, NewsListFragment.newInstance());
+        replaceFragment(mContainerId, HomeScreenFragment.newInstance());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class AppNavigatorImpl implements AppNavigator {
 
     @Override
     public void launchNewsDetailScreen(News data) {
-        replaceFragment(mContainerId, NewsDetailFragment.newInstance(data));
+        addFragmentAndAddToBackStack(mContainerId, NewsDetailFragment.newInstance(data));
     }
 
     // Internal Implementation

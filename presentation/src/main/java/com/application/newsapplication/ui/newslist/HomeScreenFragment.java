@@ -1,6 +1,5 @@
 package com.application.newsapplication.ui.newslist;
 
-import android.arch.lifecycle.Observer;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,7 +23,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class NewsListFragment extends BaseFragment {
+public class HomeScreenFragment extends BaseFragment {
 
     @Inject
     NewsViewModel mViewModel;
@@ -32,11 +31,11 @@ public class NewsListFragment extends BaseFragment {
     private NewsListAdapter mAdapter;
     private ArrayAdapter<String> mSpinnerAdapter;
 
-    public static NewsListFragment newInstance() {
+    public static HomeScreenFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        NewsListFragment fragment = new NewsListFragment();
+        HomeScreenFragment fragment = new HomeScreenFragment();
         fragment.setArguments(args);
         return fragment;
     }

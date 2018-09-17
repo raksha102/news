@@ -49,7 +49,7 @@ public abstract class BaseFragment extends Fragment implements RxBusCallback {
         super.onCreate(savedInstanceState);
     }
 
-    private void readFromBundle() {
+    protected void readFromBundle() {
 
     }
 

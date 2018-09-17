@@ -1,7 +1,7 @@
 package com.application.newsapplication.injection.module;
 
 import com.application.newsapplication.ui.newsdetail.NewsDetailFragment;
-import com.application.newsapplication.ui.newslist.NewsListFragment;
+import com.application.newsapplication.ui.newslist.HomeScreenFragment;
 import com.application.newsapplication.ui.onboard.SplashScreenFragment;
 
 import dagger.Module;
@@ -17,5 +17,5 @@ public abstract class FragmentProvider {
     abstract SplashScreenFragment bindSplashScreenFragment();
 
     @ContributesAndroidInjector
-    abstract NewsListFragment bindNewsListFragment();
+    abstract HomeScreenFragment bindNewsListFragment();
 }
