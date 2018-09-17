@@ -10,6 +10,11 @@
         android:layout_height="wrap_content"
         android:entries="@array/news_sources"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@android:color/darker_gray"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_news"
         android:layout_marginTop="@dimen/dp_16"

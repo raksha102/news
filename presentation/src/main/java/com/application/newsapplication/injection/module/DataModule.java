@@ -3,6 +3,7 @@ package com.application.newsapplication.injection.module;
 
 import com.application.data.NetworkConstants;
 import com.application.data.net.ApiService;
+import com.application.data.net.LoggingInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -47,7 +48,7 @@ public class DataModule {
     @Singleton
     OkHttpClient provideOkHttpClient() {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
-        //client.addInterceptor(new LoggingInterceptor());
+        client.addInterceptor(new LoggingInterceptor());
         client.addInterceptor(chain -> {
             Request original = chain.request();
             Request.Builder requestBuilder = original.newBuilder()

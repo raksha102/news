@@ -55,13 +55,21 @@ public class NewsListFragment extends BaseFragment {
     }
 
     private void setUpSpinner(FragmentHomeScreenBinding binding) {
-        binding.spinnerNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        binding.spinnerNews.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                String source = (String) adapterView.getItemAtPosition(pos);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String source = (String) parent.getItemAtPosition(position);
                 mViewModel.getData(source);
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
+
+        binding.spinnerNews.setSelection(0);
     }
 
     private void seUpRecyclerView(FragmentHomeScreenBinding binding) {
@@ -76,18 +84,13 @@ public class NewsListFragment extends BaseFragment {
     }
 
     private void observeData() {
-        mViewModel.getLiveData().observe(this, new Observer<List<News>>() {
-            @Override
-            public void onChanged(@Nullable List<News> news) {
-                updateData(news);
-            }
-        });
+        mViewModel.getLiveData().observe(this, news -> updateData(news));
     }
 
     private void updateData(List<News> news) {
         if(mAdapter.hasData()){
             mAdapter.addData(news);
-        }else{
+        } else {
             mAdapter.setData(news);
         }
     }

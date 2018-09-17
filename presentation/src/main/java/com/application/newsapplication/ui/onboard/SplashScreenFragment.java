@@ -33,6 +33,6 @@ public class SplashScreenFragment extends BaseFragment {
 
     @Override
     public AppToolbar getToolBarSetting() {
-        return null;
+        return new AppToolbar.AppToolBarBuilder(false).build();
     }
 }

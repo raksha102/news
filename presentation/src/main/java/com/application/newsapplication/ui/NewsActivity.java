@@ -35,7 +35,7 @@ public class NewsActivity extends BaseActivity {
     private void handleExitButtonClick() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage(getString(R.string.dlg_msg_app_exit))
-                .setNegativeButton(getString(R.string.dlg_negetive_btn), (dialogInterface, i) -> dialogInterface.cancel())
+                .setNegativeButton(getString(R.string.dlg_negative_btn), (dialogInterface, i) -> dialogInterface.cancel())
                 .setPositiveButton(getString(R.string.dlg_positive_btn), (dialogInterface, i) -> finish()).show();
     }
 }
