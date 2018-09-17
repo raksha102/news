@@ -5,12 +5,11 @@ import android.os.Handler;
 import android.view.View;
 
 import com.application.newsapplication.R;
+import com.application.newsapplication.application.constants.AppConstants;
 import com.application.newsapplication.ui.base.AppToolbar;
 import com.application.newsapplication.ui.base.BaseFragment;
 
 public class SplashScreenFragment extends BaseFragment {
-
-    private static final long SPLASH_TIMEOUT = 3000;
 
     public static SplashScreenFragment newInstance() {
 
@@ -28,7 +27,7 @@ public class SplashScreenFragment extends BaseFragment {
 
     @Override
     protected void initViews(View view) {
-        new Handler().postDelayed(() -> getNavigator().launchNewsScreen(), SPLASH_TIMEOUT);
+        new Handler().postDelayed(() -> getNavigator().launchNewsScreen(), AppConstants.SPLASH_TIMEOUT);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.application.domain.executor.PostExecutionThread;
 import com.application.domain.executor.ThreadExecutor;
 
 import io.reactivex.FlowableTransformer;
+import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.SingleTransformer;
 import io.reactivex.observers.DisposableObserver;
@@ -33,6 +34,8 @@ public abstract class UseCase<T, Params> {
         this.postExecutionThread = postExecutionThread;
     }
 
+    abstract T buildUseCaseObservable(Params params);
+
     /**
      * Executes the current use case.
      *
@@ -40,7 +43,7 @@ public abstract class UseCase<T, Params> {
      */
     public abstract T execute(Params params);
 
-    protected <Upstream> SingleTransformer<Upstream, Upstream> getApiExecutor() {
+    protected <Upstream> ObservableTransformer<Upstream, Upstream> getApiExecutor() {
         return upstream -> upstream
                 .subscribeOn(threadExecutor.getScheduler())
                 .observeOn(postExecutionThread.getScheduler());

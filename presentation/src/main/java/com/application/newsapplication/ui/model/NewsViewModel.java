@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
+import com.application.domain.Constants;
 import com.application.domain.News;
 import com.application.domain.interactor.GetNewsList;
 
@@ -28,6 +29,11 @@ public class NewsViewModel extends ViewModel {
         mGetNewsList = getNewsList;
     }
 
+    /**
+     * Fetch today's news from network
+     * @param source : news source
+     * @param isLoadMore : should fetch next page data
+     */
     public void getData(String source, boolean isLoadMore) {
         mLoaderData.setValue(true);
         if (!isLoadMore && mDataMap.containsKey(source) && mDataMap.get(source).getValue().size() > 0) {
@@ -35,6 +41,8 @@ public class NewsViewModel extends ViewModel {
             mLoaderData.setValue(false);
         } else {
             mGetNewsList.execute(new GetNewsList.Params(source, getPage() + 1))
+                    .firstElement()
+                    .toSingle()
                     .subscribeWith(new DisposableSingleObserver<List<News>>() {
                         @Override
                         public void onSuccess(List<News> news) {
@@ -53,7 +61,7 @@ public class NewsViewModel extends ViewModel {
     }
 
     private int getPage() {
-        return mLiveData.getValue() != null && mLiveData.getValue().size() > 0 ? mLiveData.getValue().size() / 10 : 0;
+        return mLiveData.getValue() != null && mLiveData.getValue().size() > 0 ? mLiveData.getValue().size() / Constants.PAGE_SIZE : 0;
     }
 
     public MutableLiveData<List<News>> getLiveData() {

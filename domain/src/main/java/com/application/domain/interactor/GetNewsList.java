@@ -11,10 +11,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Single;
+import io.reactivex.Observable;
 
 @Singleton
-public class GetNewsList extends UseCase<Single<List<News>>, GetNewsList.Params> {
+public class GetNewsList extends UseCase<Observable<List<News>>, GetNewsList.Params> {
 
     private final NewsRepository mNewsRepository;
 
@@ -25,10 +25,13 @@ public class GetNewsList extends UseCase<Single<List<News>>, GetNewsList.Params>
     }
 
     @Override
-    public Single<List<News>> execute(Params params) {
-        return mNewsRepository.getNews(params.source, params.page, Constants.PAGE_SIZE)
-                .firstElement()
-                .toSingle()
+    Observable<List<News>> buildUseCaseObservable(Params params) {
+        return mNewsRepository.getNews(params.source, params.page, Constants.PAGE_SIZE);
+    }
+
+    @Override
+    public Observable<List<News>> execute(Params params) {
+        return this.buildUseCaseObservable(params)
                 .compose(getApiExecutor());
     }
 
@@ -36,6 +39,11 @@ public class GetNewsList extends UseCase<Single<List<News>>, GetNewsList.Params>
         private final int page;
         private String source;
 
+        /**
+         *
+         * @param source : news source
+         * @param page : next page to fetched
+         */
         public Params(String source, int page) {
             this.source = source;
             this.page = page;

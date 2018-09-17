@@ -5,6 +5,8 @@ import android.support.annotation.StringDef;
 
 public class AppConstants {
 
+    public static final long SPLASH_TIMEOUT = 3000;
+
     @IntDef({SCREEN_LOGIN})
     public @interface SCREEN_TYPE {
     }

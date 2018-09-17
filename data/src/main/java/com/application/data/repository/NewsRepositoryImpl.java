@@ -1,5 +1,6 @@
 package com.application.data.repository;
 
+import com.application.data.NetworkConstants;
 import com.application.data.entity.mapper.NewsDataMapper;
 import com.application.data.repository.datasources.NewsDataStore;
 import com.application.data.repository.datasources.NewsDataStoreFactory;
@@ -35,7 +36,7 @@ public class NewsRepositoryImpl implements NewsRepository {
     private String getSource(String source) {
         switch (source) {
             case Constants.SOURCE_CNN:
-                return "cnn";
+                return NetworkConstants.SOURCE_CNN;
             case Constants.SOURCE_BBC_NEWS:
                 return "bbc-news";
             case Constants.SOURCE_NEW_YORK_TIMES:
