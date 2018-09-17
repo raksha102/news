@@ -41,6 +41,7 @@ public class HomeScreenFragment extends BaseFragment {
     private NewsListAdapter mAdapter;
     private String mLastSelectedSource;
     private boolean bLoadMore;
+    int mLastVisibleItemPos;
 
     public static HomeScreenFragment newInstance() {
 
@@ -110,8 +111,7 @@ public class HomeScreenFragment extends BaseFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mLastSelectedSource = (String) parent.getItemAtPosition(position);
-                mAdapter.resetData();
-                bLoadMore = false;
+                reInit();
                 mViewModel.getData(mLastSelectedSource, false);
             }
 
@@ -124,6 +124,12 @@ public class HomeScreenFragment extends BaseFragment {
         binding.spinnerNews.setSelection(0);
     }
 
+    private void reInit() {
+        mAdapter.resetData();
+        bLoadMore = false;
+        mLastVisibleItemPos = -1;
+    }
+
     private void seUpRecyclerView(FragmentHomeScreenBinding binding) {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         binding.rvNews.setLayoutManager(manager);
@@ -134,7 +140,7 @@ public class HomeScreenFragment extends BaseFragment {
 
     private void addScrollListener(FragmentHomeScreenBinding binding, LinearLayoutManager manager) {
         binding.rvNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItemPos;
+
             int visibleItemPos;
             int threshHold = Constants.PAGE_SIZE - 2;
 
@@ -146,12 +152,12 @@ public class HomeScreenFragment extends BaseFragment {
 
             private void onListScroll(int dy) {
                 visibleItemPos = manager.findLastVisibleItemPosition();
-                if (dy > 0 && visibleItemPos != lastVisibleItemPos && mAdapter != null
+                if (dy > 0 && visibleItemPos != mLastVisibleItemPos && mAdapter != null
                         && mAdapter.getItemCount() >= Constants.PAGE_SIZE
                         && visibleItemPos % Constants.PAGE_SIZE == threshHold) {
                     bLoadMore = true;
                     mViewModel.getData(mLastSelectedSource, true);
-                    lastVisibleItemPos = visibleItemPos;
+                    mLastVisibleItemPos = visibleItemPos;
                 }
             }
         });
