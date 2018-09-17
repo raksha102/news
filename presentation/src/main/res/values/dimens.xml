@@ -2,5 +2,4 @@
 <resources>
     <dimen name="app_start_margin">@dimen/dp_16</dimen>
     <dimen name="news_tile_image_width">70dp</dimen>
-    <dimen name="dp_4">4dp</dimen>
 </resources>
