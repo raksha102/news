@@ -13,6 +13,10 @@ public class NewsResponse {
         return articles;
     }
 
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
+
     public class Article{
         @SerializedName("title")
         private String title;
@@ -28,6 +32,14 @@ public class NewsResponse {
 
         @SerializedName("content")
         private String content;
+
+        public Article(String title, String description, String urlToImage, String publishedAt, String content) {
+            this.title = title;
+            this.description = description;
+            this.urlToImage = urlToImage;
+            this.publishedAt = publishedAt;
+            this.content = content;
+        }
 
         public String getTitle() {
             return title;
