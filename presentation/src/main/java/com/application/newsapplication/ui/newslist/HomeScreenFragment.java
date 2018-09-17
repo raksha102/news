@@ -32,6 +32,9 @@ public class HomeScreenFragment extends BaseFragment {
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
 
+    @BindView(R.id.load_more)
+    ProgressBar mLoadMoreProgress;
+
     @Inject
     NewsViewModel mViewModel;
 
@@ -96,14 +99,15 @@ public class HomeScreenFragment extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                onListScroll(dx);
+                onListScroll(dy);
             }
 
-            private void onListScroll(int dx) {
+            private void onListScroll(int dy) {
                 visibleItemPos = manager.findLastVisibleItemPosition();
-                if (dx > 0 && visibleItemPos != lastVisibleItemPos && mAdapter != null
+                if (dy > 0 && visibleItemPos != lastVisibleItemPos && mAdapter != null
                         && mAdapter.getItemCount() >= Constants.PAGE_SIZE
                         && visibleItemPos % Constants.PAGE_SIZE == threshHold) {
+                    mLoadMoreProgress.setVisibility(View.VISIBLE);
                     mViewModel.getData(mLastSelectedSource, true);
                     lastVisibleItemPos = visibleItemPos;
                 }
@@ -122,6 +126,7 @@ public class HomeScreenFragment extends BaseFragment {
     }
 
     private void showLoader(Boolean showLoader) {
+        mLoadMoreProgress.setVisibility(View.GONE);
         mProgressBar.setVisibility(showLoader ? View.VISIBLE : View.GONE);
     }
 

@@ -8,5 +8,5 @@ import io.reactivex.Observable;
 
 public interface NewsDataStore {
 
-    Observable<NewsResponse> newsEntityList(String source, int offset, int page);
+    Observable<NewsResponse> newsEntityList(String source, long page, int pageSize);
 }

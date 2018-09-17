@@ -27,9 +27,9 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public Observable<List<News>> getNews(String source, int offset, int count) {
+    public Observable<List<News>> getNews(String source, long page, int pageSize) {
         NewsDataStore dataStore = mDataStoreFactory.createCloudDataStore();
-        return dataStore.newsEntityList(getSource(source), offset, count).map(mMapper::transform);
+        return dataStore.newsEntityList(getSource(source), page, pageSize).map(mMapper::transform);
     }
 
     private String getSource(String source) {

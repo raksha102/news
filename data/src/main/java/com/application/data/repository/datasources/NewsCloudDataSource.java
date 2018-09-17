@@ -4,6 +4,8 @@ import com.application.data.NetworkConstants;
 import com.application.data.entity.NewsResponse;
 import com.application.data.net.ApiService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,7 +22,8 @@ public class NewsCloudDataSource implements NewsDataStore {
     }
 
     @Override
-    public Observable<NewsResponse> newsEntityList(String source, int offset, int page) {
-        return mApiService.getNews(NetworkConstants.API_KEY, source);
+    public Observable<NewsResponse> newsEntityList(String source, long page, int pageSize) {
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        return mApiService.fetchFeed(source, NetworkConstants.API_KEY, today, today, page, pageSize);
     }
 }

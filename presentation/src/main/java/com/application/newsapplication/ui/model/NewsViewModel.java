@@ -34,7 +34,7 @@ public class NewsViewModel extends ViewModel {
             mLiveData.setValue(mDataMap.get(source).getValue());
             mLoaderData.setValue(false);
         } else {
-            mGetNewsList.execute(new GetNewsList.Params(source, getPage()))
+            mGetNewsList.execute(new GetNewsList.Params(source, getPage() + 1))
                     .subscribeWith(new DisposableSingleObserver<List<News>>() {
                         @Override
                         public void onSuccess(List<News> news) {

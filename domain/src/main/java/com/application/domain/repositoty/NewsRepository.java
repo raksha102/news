@@ -9,5 +9,5 @@ import io.reactivex.Observable;
 
 public interface NewsRepository {
 
-    Observable<List<News>> getNews(String source, int offset, int count);
+    Observable<List<News>> getNews(String source, long page, int pageSize);
 }

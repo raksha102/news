@@ -1,5 +1,6 @@
 package com.application.domain.interactor;
 
+import com.application.domain.Constants;
 import com.application.domain.News;
 import com.application.domain.executor.PostExecutionThread;
 import com.application.domain.executor.ThreadExecutor;
@@ -25,7 +26,7 @@ public class GetNewsList extends UseCase<Single<List<News>>, GetNewsList.Params>
 
     @Override
     public Single<List<News>> execute(Params params) {
-        return mNewsRepository.getNews(params.source, params.page, 10)
+        return mNewsRepository.getNews(params.source, params.page, Constants.PAGE_SIZE)
                 .firstElement()
                 .toSingle()
                 .compose(getApiExecutor());
