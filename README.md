@@ -1,1 +1,1 @@
-# news
+# News Application
