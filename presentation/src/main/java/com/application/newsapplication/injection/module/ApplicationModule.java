@@ -1,5 +1,8 @@
 package com.application.newsapplication.injection.module;
 
+import android.app.Application;
+import android.content.Context;
+
 import com.application.data.repository.NewsRepositoryImpl;
 import com.application.domain.executor.PostExecutionThread;
 import com.application.domain.executor.ThreadExecutor;
@@ -16,6 +19,10 @@ import dagger.Module;
 
 @Module
 public abstract class ApplicationModule {
+
+    @Binds
+    @Singleton
+    abstract Context provideContext(Application application);
 
     @Binds
     @Singleton
