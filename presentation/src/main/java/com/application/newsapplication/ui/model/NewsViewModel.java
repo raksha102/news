@@ -8,9 +8,7 @@ import com.application.domain.Constants;
 import com.application.domain.News;
 import com.application.domain.interactor.GetNewsList;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -20,7 +18,6 @@ public class NewsViewModel extends ViewModel {
 
     private static final String TAG = NewsViewModel.class.getSimpleName();
     private final GetNewsList mGetNewsList;
-    private Map<String, MutableLiveData<List<News>>> mDataMap = new HashMap<>();
     private MutableLiveData<List<News>> mLiveData = new MutableLiveData<>();
     private MutableLiveData<Boolean> mLoaderData = new MutableLiveData<>();
 
@@ -31,38 +28,29 @@ public class NewsViewModel extends ViewModel {
 
     /**
      * Fetch today's news from network
-     * @param source : news source
-     * @param isLoadMore : should fetch next page data
+     *
+     * @param source     : news source
+     * @param page : should fetch next page data
      */
-    public void getData(String source, boolean isLoadMore) {
+    public void getData(String source, int page) {
         mLoaderData.setValue(true);
-        if (!isLoadMore && mDataMap.containsKey(source) && mDataMap.get(source).getValue().size() > 0) {
-            mLiveData.setValue(mDataMap.get(source).getValue());
-            mLoaderData.setValue(false);
-        } else {
-            mGetNewsList.execute(new GetNewsList.Params(source, getPage() + 1))
-                    .firstElement()
-                    .toSingle()
-                    .subscribeWith(new DisposableSingleObserver<List<News>>() {
-                        @Override
-                        public void onSuccess(List<News> news) {
-                            mLoaderData.setValue(false);
-                            mLiveData.setValue(news);
-                            mDataMap.put(source, mLiveData);
-                        }
+        mGetNewsList.execute(new GetNewsList.Params(source, page))
+                .firstElement()
+                .toSingle()
+                .subscribeWith(new DisposableSingleObserver<List<News>>() {
+                    @Override
+                    public void onSuccess(List<News> news) {
+                        mLoaderData.setValue(false);
+                        mLiveData.setValue(news);
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e(TAG, "onError : " + e.getMessage());
-                            mLoaderData.setValue(false);
-                        }
-                    });
-        }
-    }
-
-    private int getPage() {
-        return mLiveData.getValue() != null && mLiveData.getValue().size() > 0 ? mLiveData.getValue().size() / Constants.PAGE_SIZE : 0;
-    }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError : " + e.getMessage());
+                        mLoaderData.setValue(false);
+                    }
+                });
+}
 
     public MutableLiveData<List<News>> getLiveData() {
         return mLiveData;

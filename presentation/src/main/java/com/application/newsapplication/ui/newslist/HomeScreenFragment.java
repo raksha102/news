@@ -112,7 +112,7 @@ public class HomeScreenFragment extends BaseFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mLastSelectedSource = (String) parent.getItemAtPosition(position);
                 reInit();
-                mViewModel.getData(mLastSelectedSource, false);
+                mViewModel.getData(mLastSelectedSource, 1);
             }
 
             @Override
@@ -156,7 +156,7 @@ public class HomeScreenFragment extends BaseFragment {
                         && mAdapter.getItemCount() >= Constants.PAGE_SIZE
                         && visibleItemPos % Constants.PAGE_SIZE == threshHold) {
                     bLoadMore = true;
-                    mViewModel.getData(mLastSelectedSource, true);
+                    mViewModel.getData(mLastSelectedSource, mAdapter.getNextPage());
                     mLastVisibleItemPos = visibleItemPos;
                 }
             }

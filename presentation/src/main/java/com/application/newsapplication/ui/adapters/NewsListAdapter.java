@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.application.domain.Constants;
 import com.application.domain.News;
 import com.application.newsapplication.application.events.NavigationEvent;
 import com.application.newsapplication.databinding.ItemNewsBinding;
@@ -67,5 +68,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
         if (mData != null)
             mData.clear();
         notifyDataSetChanged();
+    }
+
+    public int getNextPage() {
+        return mData != null && mData.size() > Constants.PAGE_SIZE ? mData.size() / Constants.PAGE_SIZE : 1;
     }
 }
